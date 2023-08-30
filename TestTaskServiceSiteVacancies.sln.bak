@@ -5,7 +5,7 @@ VisualStudioVersion = 17.7.34003.232
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceVacanciesAndResumes", "src\Services\ServiceVacanciesAndResumes\ServiceVacanciesAndResumes.csproj", "{78630686-C6F9-4007-BD97-9D541D825302}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{EC183653-AC7B-47DF-8B3E-8CA262B6C7B7}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NewFolder1", "NewFolder1", "{EC183653-AC7B-47DF-8B3E-8CA262B6C7B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
