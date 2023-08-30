@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceVacanciesAndResumes"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{EC183653-AC7B-47DF-8B3E-8CA262B6C7B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebViewVacanciesAndResumes", "src\Web Apps\WebViewVacanciesAndResumes\WebViewVacanciesAndResumes.csproj", "{7D6C6C28-3CC4-430B-8E2A-AF323BB39974}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebViewVacanciesAndResumes", "src\Web Apps\WebViewVacanciesAndResumes\WebViewVacanciesAndResumes.csproj", "{7D6C6C28-3CC4-430B-8E2A-AF323BB39974}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web Views", "Web Views", "{3C575A9B-32C0-43CD-A098-6E4E6DA6B70C}"
 EndProject
