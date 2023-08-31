@@ -1,36 +1,38 @@
 ﻿@page "/showallvacancies"
+@using ServiceVacanciesAndResumes.IGrpcService;
+@using ServiceVacanciesAndResumes.Models.Response;
+@inject IGrpcService grpcService;
 
 <MudLayout>
-<MudMainContent Class="mt-n1 mx-auto pa-3">
+    <MudMainContent Class="mt-n1 mx-auto pa-3">
         <MudContainer>
             <MudText>List Vacancies</MudText>
             <MudList Class="mud-theme-primary">
-                <MudListItem Avatar="@Icons.Material.Filled.Work">
-                    <MudCard>
-                        <MudCardContent>
-                            <MudText>Story of the day</MudText>
-                            <MudText Typo="Typo.body2">The quick, brown fox jumps over a lazy dog.</MudText>
-                        </MudCardContent>
-                        <MudCardActions >
-                            <MudButton Variant="Variant.Text" Color="Color.Primary" >Send Resume</MudButton>
-                        </MudCardActions>
-                    </MudCard>
-                </MudListItem>
-                <MudListItem Avatar="@Icons.Material.Filled.Work">
-                    <MudCard>
-                        <MudCardContent>
-                            <MudText>Story of the day</MudText>
-                            <MudText Typo="Typo.body2">The quick, brown fox jumps over a lazy dog.</MudText>
-                        </MudCardContent>
-                        <MudCardActions>
-                            <MudButton Variant="Variant.Text" Color="Color.Primary">Send Resume</MudButton>
-                        </MudCardActions>
-                    </MudCard>
-                </MudListItem>
+                @if (vacanciesResponse.Vacancies != null)
+                    @foreach (var row in vacanciesResponse.Vacancies)
+                    {
+                        <MudListItem Avatar="@Icons.Material.Filled.Work">
+                            <MudCard>
+                                <MudCardContent>
+                                    <MudText>@row.Title    -     @row.WorkingPosition.Title    -     @row.ScheduleWork.Title</MudText>
+                                    <MudText Typo="Typo.body2">@row.Text</MudText>
+                                </MudCardContent>
+                                <MudCardActions>
+                                    <MudButton Variant="Variant.Text" Color="Color.Primary">Send Resume</MudButton>
+                                </MudCardActions>
+                            </MudCard>
+                        </MudListItem>
+                    }
+
             </MudList>
         </MudContainer>
     </MudMainContent>
 </MudLayout>
 @code {
 
+    VacanciesResponse vacanciesResponse = new VacanciesResponse();
+    protected override async Task OnInitializedAsync()
+    {
+        vacanciesResponse = await grpcService.GetAllVacancies(new ServiceVacanciesAndResumes.Models.Requests.VacanciesRequest());
+    }
 }

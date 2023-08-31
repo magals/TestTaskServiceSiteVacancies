@@ -1,10 +1,14 @@
+using Microsoft.Extensions.Options;
 using MudBlazor.Services;
+using ProtoBuf.Grpc.ClientFactory;
 using Serilog;
 using Serilog.Events;
 using Serilog.Expressions;
 using Serilog.Settings.Configuration;
+using ServiceVacanciesAndResumes.IGrpcService;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using WebViewVacanciesAndResumes.Infrastructure;
 
 IConfiguration Configuration = new ConfigurationBuilder()
    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -40,6 +44,12 @@ try
     builder.Services.AddRazorPages();
     builder.Services.AddServerSideBlazor();
     builder.Services.AddMudServices();
+
+    builder.Services.AddTransient<GrpcExceptionInterceptor>();
+    builder.Services.AddCodeFirstGrpcClient<IGrpcService>((services, options) =>
+    {
+        options.Address = new Uri("http://localhost:15011");
+    }).AddInterceptor<GrpcExceptionInterceptor>();
 
     var app = builder.Build();
 

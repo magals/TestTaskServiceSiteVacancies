@@ -46,7 +46,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\..\ServiceVacanciesAndResumes.IGrpcService\ServiceVacanciesAndResumes.IGrpcService.csproj" />
+	  <ProjectReference Include="..\ServiceVacanciesAndResumes.IGrpcService\ServiceVacanciesAndResumes.IGrpcService.csproj" />
 	  <ProjectReference Include="..\ServiceVacanciesAndResumes.Models\ServiceVacanciesAndResumes.Models.csproj" />
 	</ItemGroup>
 	

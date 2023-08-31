@@ -33,19 +33,29 @@ namespace ServiceVacanciesAndResumes.API.Grpc
 
         public async ValueTask<VacanciesResponse> GetAllVacancies(VacanciesRequest request)
         {
-            var items = vacanciesRepository.GetAll();
             var answer = new VacanciesResponse
             {
                 Vacancies = new List<VacancyResponse>()
-                {
-                    new VacancyResponse
-                    {
-                        VacancieId = items.First().VacancieId,
-                        Text = items.First().Text,
-                        Title = items.First().Title
-                    }
-                }
             };
+
+            var items = vacanciesRepository.GetAll();
+            items.ForEach(x =>
+            {
+                answer.Vacancies.Add(new VacancyResponse
+                {
+                    VacancieId = x.VacancieId,
+                    Text = x.Text,
+                    Title = x.Title,
+                    ScheduleWork = new Models.ScheduleWork
+                    {
+                        Title = x.ScheduleWorkEntity.Title,
+                    },
+                    WorkingPosition = new Models.WorkingPosition
+                    {
+                        Title = x.WorkingPositionEntity.Title,
+                    }
+                });
+            });
             return await Task.FromResult(answer);
         }
     }

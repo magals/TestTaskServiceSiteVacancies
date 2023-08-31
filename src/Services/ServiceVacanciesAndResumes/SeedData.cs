@@ -39,7 +39,7 @@ public class SeedData
             new WorkingPositionEntity
             {
                 WorkingPositionId = 2,
-                Title = "Finance"
+                Title = "Accountant"
             }
         };
         context.WorkingPositionEntity.AddRange(wpe);
@@ -58,6 +58,19 @@ public class SeedData
                 UpdatedBy = "InMemory",
                 ScheduleWorkEntity =  swe.First(x => x.ScheduleWorkId == 1),
                 WorkingPositionEntity = wpe.First(x => x.WorkingPositionId == 1)
+            },
+             new VacancieEntity
+            {
+                VacancieId = 2,
+                Title = "MAIB, Finance",
+                Text = "Need an accountant",
+                Enable = true,
+                CreatedAt = DateTime.Now,
+                CreatedBy = "InMemory",
+                UpdatedAt = DateTime.Now,
+                UpdatedBy = "InMemory",
+                ScheduleWorkEntity =  swe.First(x => x.ScheduleWorkId == 2),
+                WorkingPositionEntity = wpe.First(x => x.WorkingPositionId == 2)
             }
         };
         context.VacancieEntity.AddRange(vacancie);
