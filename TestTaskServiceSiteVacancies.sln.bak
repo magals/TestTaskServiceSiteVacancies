@@ -3,13 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34003.232
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceVacanciesAndResumes", "src\Services\ServiceVacanciesAndResumes\ServiceVacanciesAndResumes.csproj", "{78630686-C6F9-4007-BD97-9D541D825302}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceVacanciesAndResumes.API", "src\Services\ServiceVacanciesAndResumes\ServiceVacanciesAndResumes.API.csproj", "{78630686-C6F9-4007-BD97-9D541D825302}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{EC183653-AC7B-47DF-8B3E-8CA262B6C7B7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebViewVacanciesAndResumes", "src\Web Apps\WebViewVacanciesAndResumes\WebViewVacanciesAndResumes.csproj", "{7D6C6C28-3CC4-430B-8E2A-AF323BB39974}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web Apps", "Web Apps", "{3C575A9B-32C0-43CD-A098-6E4E6DA6B70C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web Views", "Web Views", "{3C575A9B-32C0-43CD-A098-6E4E6DA6B70C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceVacanciesAndResumes.Models", "src\Services\ServiceVacanciesAndResumes.Models\ServiceVacanciesAndResumes.Models.csproj", "{22425F88-FDF1-449E-8A07-25E1857CA878}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceVacanciesAndResumes.IGrpcService", "ServiceVacanciesAndResumes.IGrpcService\ServiceVacanciesAndResumes.IGrpcService.csproj", "{7B0D0573-2035-40BD-825B-7DFFD202D2E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,6 +29,14 @@ Global
 		{7D6C6C28-3CC4-430B-8E2A-AF323BB39974}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D6C6C28-3CC4-430B-8E2A-AF323BB39974}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D6C6C28-3CC4-430B-8E2A-AF323BB39974}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22425F88-FDF1-449E-8A07-25E1857CA878}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22425F88-FDF1-449E-8A07-25E1857CA878}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22425F88-FDF1-449E-8A07-25E1857CA878}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22425F88-FDF1-449E-8A07-25E1857CA878}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B0D0573-2035-40BD-825B-7DFFD202D2E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B0D0573-2035-40BD-825B-7DFFD202D2E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B0D0573-2035-40BD-825B-7DFFD202D2E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B0D0573-2035-40BD-825B-7DFFD202D2E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -32,6 +44,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{78630686-C6F9-4007-BD97-9D541D825302} = {EC183653-AC7B-47DF-8B3E-8CA262B6C7B7}
 		{7D6C6C28-3CC4-430B-8E2A-AF323BB39974} = {3C575A9B-32C0-43CD-A098-6E4E6DA6B70C}
+		{22425F88-FDF1-449E-8A07-25E1857CA878} = {EC183653-AC7B-47DF-8B3E-8CA262B6C7B7}
+		{7B0D0573-2035-40BD-825B-7DFFD202D2E6} = {EC183653-AC7B-47DF-8B3E-8CA262B6C7B7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9F60C744-410F-46A2-9AA0-4A635F2BE1D7}
