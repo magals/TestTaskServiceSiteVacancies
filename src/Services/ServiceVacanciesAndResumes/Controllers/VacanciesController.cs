@@ -8,19 +8,23 @@ namespace ServiceVacanciesAndResumes.API.Controllers;
 [ApiController]
 public class VacanciesController : ControllerBase
 {
-    private readonly ILogger<VacanciesController> logger;
     private readonly IVacanciesRepository vacanciesRepository;
 
-    public VacanciesController(ILogger<VacanciesController> logger,
-                               IVacanciesRepository vacanciesRepository)
+    public VacanciesController(IVacanciesRepository vacanciesRepository)
     {
-        this.logger = logger;
         this.vacanciesRepository = vacanciesRepository;
     }
 
     [HttpGet]
-    public ActionResult<List<VacancieEntity>> Get()
+    public ActionResult<List<VacancieEntity>> GetAll()
     {
         return Ok(vacanciesRepository.GetAll());
+    }
+
+    [HttpPost]
+    public ActionResult CreateVacancy([FromBody] VacancieEntity vacancieEntity)
+    {
+        vacanciesRepository.CreateVacancie(vacancieEntity);
+        return Ok();
     }
 }

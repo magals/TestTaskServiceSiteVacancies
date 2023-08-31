@@ -2,6 +2,8 @@ using Serilog;
 using Serilog.Events;
 using Serilog.Expressions;
 using Serilog.Settings.Configuration;
+using ServiceVacanciesAndResumes.API;
+using ServiceVacanciesAndResumes.API.Infrastructure;
 using ServiceVacanciesAndResumes.API.Infrastructure.Repositories;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -36,7 +38,9 @@ try
                     .WriteTo.File(@"logs\logs-.txt", LogEventLevel.Information, rollingInterval: RollingInterval.Day, retainedFileCountLimit: 60)
                     .WriteTo.Console());
 
+    builder.Services.AddDbContext<ServiceVacanciesAndResumesContext>();
     builder.Services.AddScoped<IVacanciesRepository, VacanciesRepository>();
+    builder.Services.AddScoped<IResumesRepository, ResumesRepository>();
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
@@ -52,7 +56,12 @@ try
         });
     }
     app.MapControllers();
-    app.Run();
+
+    using (var scope = app.Services.CreateScope())
+    {
+        await SeedData.EnsureSeedData(scope, app.Configuration, app.Logger);
+    }
+    await app.RunAsync();
 }
 catch (Exception ex)
 {

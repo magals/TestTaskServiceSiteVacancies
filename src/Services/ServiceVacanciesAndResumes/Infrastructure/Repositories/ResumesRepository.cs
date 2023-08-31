@@ -3,25 +3,25 @@ using ServiceVacanciesAndResumes.Infrastructure.Entities;
 
 namespace ServiceVacanciesAndResumes.API.Infrastructure.Repositories;
 
-public class VacanciesRepository : IVacanciesRepository
+public class ResumesRepository : IResumesRepository
 {
     private readonly ServiceVacanciesAndResumesContext serviceVacanciesAndResumesContext;
 
-    public VacanciesRepository(ServiceVacanciesAndResumesContext serviceVacanciesAndResumesContext)
+    public ResumesRepository(ServiceVacanciesAndResumesContext serviceVacanciesAndResumesContext)
     {
         this.serviceVacanciesAndResumesContext = serviceVacanciesAndResumesContext;
     }
-
-    public void CreateVacancie(VacancieEntity vacancieEntity)
+    public void CreateResume(ResumeEntity resumeEntity)
     {
-        serviceVacanciesAndResumesContext.VacancieEntity.Add(vacancieEntity);
+        serviceVacanciesAndResumesContext.ResumeEntity.Add(resumeEntity);
         serviceVacanciesAndResumesContext.SaveChanges();
     }
 
-    public List<VacancieEntity> GetAll()
+    public List<ResumeEntity> GetAll()
     {
-        return serviceVacanciesAndResumesContext.VacancieEntity.Include(x => x.WorkingPositionEntity)
+        return serviceVacanciesAndResumesContext.ResumeEntity.Include(x => x.WorkingPositionEntity)
                                                                .Include(x => x.ScheduleWorkEntity)
+                                                                .Include(x => x.VacancieEntity)
                                                                .ToList();
     }
 }

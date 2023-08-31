@@ -10,15 +10,8 @@ public class ServiceVacanciesAndResumesContext : DbContext
     public DbSet<VacancieEntity> VacancieEntity { get; set; } = default!;
     public DbSet<WorkingPositionEntity> WorkingPositionEntity { get; set; } = default!;
 
-
-
-    protected override void OnConfiguring (DbContextOptionsBuilder optionsBuilder)
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseInMemoryDatabase(databaseName: "VRdatabase");
-    }
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-      
     }
 }
