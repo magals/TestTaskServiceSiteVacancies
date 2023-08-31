@@ -10,7 +10,11 @@ public class ResumeEntity : Entity
 
     [Required]
     [MaxLength(50)]
-    public required string Title { get; init; }
+    public required string Name { get; init; }
+
+    [Required]
+    [MaxLength(500)]
+    public required string Text { get; init; }
 
     public VacancieEntity VacancieEntity { get; set; } = default!;
 

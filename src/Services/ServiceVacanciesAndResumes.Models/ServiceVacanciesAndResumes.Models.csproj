@@ -1,14 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<NoWarn>$(NoWarn);8618</NoWarn>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Response\" />
-    <Folder Include="Requests\" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="protobuf-net.Core" Version="3.2.12" />
+	</ItemGroup>
 
 </Project>
