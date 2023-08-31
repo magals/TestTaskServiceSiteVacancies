@@ -35,6 +35,6 @@ public class VacancieEntity : Entity
     public ScheduleWorkEntity ScheduleWorkEntity { get; set; } = default!;
 
     [Key]
-    public long ResumeEntityId { get; set; }
-    public ResumeEntity ResumeEntity { get; set; } = default!;
+    public long WorkingPositionId { get; set; }
+    public WorkingPositionEntity WorkingPositionEntity { get; set; } = default!;
 }
