@@ -8,5 +8,8 @@ namespace ServiceVacanciesAndResumes.IGrpcService;
 public interface IGrpcService
 {
     ValueTask<ResumesResponse> GetAllResumes(ResumesRequest request);
+    ValueTask CreateResumes(ResumeCreateRequest request);
+
     ValueTask<VacanciesResponse> GetAllVacancies(VacanciesRequest request);
+    ValueTask CreateVacancies(VacancyCreateRequest request);
 }

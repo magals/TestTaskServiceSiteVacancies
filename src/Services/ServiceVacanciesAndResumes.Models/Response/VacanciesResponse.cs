@@ -5,12 +5,12 @@ namespace ServiceVacanciesAndResumes.Models.Response;
 public class VacanciesResponse
 {
     [ProtoMember(1)]
-    public IReadOnlyList<Vacancy> Vacancies { get; set; }
+    public List<VacancyResponse> Vacancies { get; set; }
 }
 
 
 [ProtoContract]
-public class Vacancy
+public class VacancyResponse
 {
     [ProtoMember(1)]
     public long VacancieId { get; set; }
@@ -19,7 +19,7 @@ public class Vacancy
     [ProtoMember(3)]
     public string Text { get; set; }
     [ProtoMember(4)]
-    public Models.Vacancy Vacancie { get; set; }
+    public Vacancy Vacancie { get; set; }
     [ProtoMember(5)]
     public ScheduleWork ScheduleWork { get; set; }
     [ProtoMember(6)]

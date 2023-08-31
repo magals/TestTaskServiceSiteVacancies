@@ -29,6 +29,25 @@
 		<PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
 		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+		<PackageReference Include="Google.Protobuf" Version="3.24.2" />
+		<PackageReference Include="Grpc.AspNetCore.Server" Version="2.56.0" />
+		<PackageReference Include="Grpc.Tools" Version="2.57.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="protobuf-net" Version="3.2.26" />
+		<PackageReference Include="protobuf-net.BuildTools" Version="3.2.27">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="protobuf-net.Grpc" Version="1.1.1" />
+		<PackageReference Include="protobuf-net.Grpc.AspNetCore" Version="1.1.1" />
+
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\..\ServiceVacanciesAndResumes.IGrpcService\ServiceVacanciesAndResumes.IGrpcService.csproj" />
+	  <ProjectReference Include="..\ServiceVacanciesAndResumes.Models\ServiceVacanciesAndResumes.Models.csproj" />
 	</ItemGroup>
 	
 </Project>

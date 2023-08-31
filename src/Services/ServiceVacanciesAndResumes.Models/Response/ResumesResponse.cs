@@ -5,7 +5,7 @@ namespace ServiceVacanciesAndResumes.Models.Response;
 public class ResumesResponse
 {
     [ProtoMember(1)]
-    public IReadOnlyList<Resume> Resumes{ get; set; }
+    public List<Resume> Resumes{ get; set; }
 }
 
 [ProtoContract]

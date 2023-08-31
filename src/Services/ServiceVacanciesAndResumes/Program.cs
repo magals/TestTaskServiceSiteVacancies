@@ -1,10 +1,14 @@
+using Microsoft.AspNetCore.Server.Kestrel.Core;
+using ProtoBuf.Grpc.Server;
 using Serilog;
 using Serilog.Events;
 using Serilog.Expressions;
 using Serilog.Settings.Configuration;
 using ServiceVacanciesAndResumes.API;
+using ServiceVacanciesAndResumes.API.Grpc;
 using ServiceVacanciesAndResumes.API.Infrastructure;
 using ServiceVacanciesAndResumes.API.Infrastructure.Repositories;
+using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
@@ -20,6 +24,21 @@ Log.Logger = new LoggerConfiguration()
 try
 {
     var builder = WebApplication.CreateBuilder(args);
+
+    builder.WebHost.ConfigureKestrel(options =>
+    {
+        var ports = GetDefinedPorts(Configuration);
+        options.Listen(IPAddress.Any, ports.httpPort, listenOptions =>
+        {
+            listenOptions.Protocols = HttpProtocols.Http1AndHttp2;
+        });
+
+        options.Listen(IPAddress.Any, ports.grpcPort, listenOptions =>
+        {
+            listenOptions.Protocols = HttpProtocols.Http2;
+        });
+
+    });
 
     var options = new ConfigurationReaderOptions(typeof(ConsoleLoggerConfigurationExtensions).Assembly, typeof(SerilogExpression).Assembly);
     builder.Host.UseSerilog((context, services, configuration) => configuration
@@ -41,11 +60,15 @@ try
     builder.Services.AddDbContext<ServiceVacanciesAndResumesContext>();
     builder.Services.AddScoped<IVacanciesRepository, VacanciesRepository>();
     builder.Services.AddScoped<IResumesRepository, ResumesRepository>();
+
+    builder.Services.AddGrpc();
+    builder.Services.AddCodeFirstGrpc();
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
     var app = builder.Build();
 
+    app.MapGrpcService<GrpcApiService>();
     if (app.Environment.IsDevelopment())
     {
         app.UseSwagger();
@@ -71,4 +94,11 @@ finally
 {
     Log.Logger.Information("Close Program");
     Log.CloseAndFlush();
+}
+
+(int httpPort, int grpcPort) GetDefinedPorts(IConfiguration config)
+{
+    var grpcPort = config.GetValue("GRPC_PORT", 15011);
+    var port = config.GetValue("PORT", 15010);
+    return (port, grpcPort);
 }
