@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ServiceVacanciesAndResumes.Infrastructure;
+namespace ServiceVacanciesAndResumes.API.Infrastructure.Entities.Base;
 
 public abstract class Entity
 {

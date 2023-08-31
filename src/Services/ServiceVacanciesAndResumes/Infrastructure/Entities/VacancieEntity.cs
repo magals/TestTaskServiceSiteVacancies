@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using ServiceVacanciesAndResumes.API.Infrastructure.Entities.Base;
 
 namespace ServiceVacanciesAndResumes.Infrastructure.Entities;
 
