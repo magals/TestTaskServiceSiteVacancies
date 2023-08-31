@@ -2,6 +2,7 @@ using Serilog;
 using Serilog.Events;
 using Serilog.Expressions;
 using Serilog.Settings.Configuration;
+using ServiceVacanciesAndResumes.API.Infrastructure.Repositories;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
@@ -36,6 +37,7 @@ try
                     .WriteTo.File(@"logs\logs-.txt", LogEventLevel.Information, rollingInterval: RollingInterval.Day, retainedFileCountLimit: 60)
                     .WriteTo.Console());
 
+    builder.Services.AddScoped<IVacanciesRepository, IVacanciesRepository>();
 
     var app = builder.Build();
 
