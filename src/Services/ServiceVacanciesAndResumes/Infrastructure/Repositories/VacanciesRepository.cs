@@ -6,9 +6,9 @@ public class VacanciesRepository : IVacanciesRepository
 {
     public VacanciesRepository()
     {
-        using (var context = new ServiceVacanciesAndResumesContext())
-        {
-            var authors = new List<VacancieEntity>
+            using (var context = new ServiceVacanciesAndResumesContext())
+            {
+                var authors = new List<VacancieEntity>
                 {
                     new VacancieEntity
                     {
@@ -17,14 +17,15 @@ public class VacanciesRepository : IVacanciesRepository
                         Text = "Text",
                         Enable = true,
                         CreatedAt = DateTime.Now,
-                        CreatedBy = "InMemory"
+                        CreatedBy = "InMemory",
+                        UpdatedAt = DateTime.Now,
+                        UpdatedBy = "InMemory"
                     }
                 };
-            context.VacancieEntity.AddRange(authors);
-            context.SaveChanges();
-        }
+                context.VacancieEntity.AddRange(authors);
+                context.SaveChanges();
+            }
     }
-
     public List<VacancieEntity> GetAll()
     {
         using var context = new ServiceVacanciesAndResumesContext();

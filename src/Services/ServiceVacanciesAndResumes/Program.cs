@@ -27,7 +27,6 @@ try
                     .Enrich.WithProperty("ApplicationName", Assembly.GetExecutingAssembly().GetName().Name)
                     .Enrich.WithProperty("Version", Assembly.GetExecutingAssembly().GetName().Version)
                     .Enrich.WithProperty("OS Version", RuntimeInformation.OSDescription)
-                    .Enrich.WithProperty("UsedStore", "")
                     .Enrich.WithMemoryUsage()
                     .Enrich.WithMachineName()
                     .Enrich.WithThreadId()
@@ -37,11 +36,22 @@ try
                     .WriteTo.File(@"logs\logs-.txt", LogEventLevel.Information, rollingInterval: RollingInterval.Day, retainedFileCountLimit: 60)
                     .WriteTo.Console());
 
-    builder.Services.AddScoped<IVacanciesRepository, IVacanciesRepository>();
-
+    builder.Services.AddScoped<IVacanciesRepository, VacanciesRepository>();
+    builder.Services.AddControllers();
+    builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddSwaggerGen();
     var app = builder.Build();
 
-
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI(c =>
+        {
+            c.SwaggerEndpoint("/swagger/v1/swagger.json", "ServiceVacanciesAndResumes.API");
+            c.RoutePrefix = string.Empty;  
+        });
+    }
+    app.MapControllers();
     app.Run();
 }
 catch (Exception ex)

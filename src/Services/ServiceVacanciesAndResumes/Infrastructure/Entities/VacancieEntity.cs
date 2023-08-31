@@ -30,12 +30,7 @@ public class VacancieEntity : Entity
 
     [Required]
     public required bool Enable { get; set; }
-
-    [Key]
-    public long ScheduleWorkId { get; set; }
+    
     public ScheduleWorkEntity ScheduleWorkEntity { get; set; } = default!;
-
-    [Key]
-    public long WorkingPositionId { get; set; }
     public WorkingPositionEntity WorkingPositionEntity { get; set; } = default!;
 }
