@@ -12,7 +12,7 @@ public class ResumeCreateRequest
     [ProtoMember(3)]
     public long VacancieId { get; set; }
     [ProtoMember(4)]
-    public long ScheduleWorkId { get; set; }
+    public string ScheduleWorkTitle { get; set; }
     [ProtoMember(5)]
-    public long WorkingPositionId { get; set; }
+    public string WorkingPositionTitle { get; set; }
 }

@@ -4,12 +4,13 @@
 @using WebViewVacanciesAndResumes.Models;
 @inject IGrpcService grpcService;
 @inject FilterRequest filter;
+@inject NavigationManager NavigationManager
 
 <MudLayout>
     <MudMainContent Class="mt-n1 mx-auto pa-3">
         <MudContainer>
             <MudText>List Vacancies</MudText>
-            <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="mb-4" OnClick="@UpdateData">Resfrash</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="mb-4" OnClick="@UpdateData">Refresh</MudButton>
             <MudList Class="mud-theme-primary">
                 @if (vacanciesResponse.Vacancies != null)
                     @foreach (var row in vacanciesResponse.Vacancies)
@@ -21,7 +22,7 @@
                                     <MudText Typo="Typo.body2">@row.Text</MudText>
                                 </MudCardContent>
                                 <MudCardActions>
-                                    <MudButton Variant="Variant.Text" Color="Color.Primary">Send Resume</MudButton>
+                                    <MudButton Variant="Variant.Text" Color="Color.Primary" HRef="@($"/createresume/{row.VacancieId}")">Send Resume</MudButton>
                                 </MudCardActions>
                             </MudCard>
                         </MudListItem>

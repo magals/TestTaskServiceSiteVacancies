@@ -1,20 +1,39 @@
-﻿@page "/createresume"
+﻿@page "/createresume/{vacancieId}"
 
 @using System.Text.RegularExpressions
 @using System.ComponentModel.DataAnnotations
+@using ServiceVacanciesAndResumes.IGrpcService;
+@using ServiceVacanciesAndResumes.Models.Requests;
+@using ServiceVacanciesAndResumes.Models.Response;
+@inject IGrpcService grpcService;
+@inject NavigationManager NavigationManager
 
 <MudText Class="mt-1 mx-auto pa-3">Create Resume</MudText>
 <MudGrid Class="mt-n1 mx-auto pa-3">
     <MudItem xs="12" sm="7">
         <MudPaper Class="pa-4">
             <MudForm @ref="form" @bind-IsValid="@success" @bind-Errors="@errors">
-                <MudTextField T="string" Label="Name" Required="true" RequiredError="Title is required!" />
-                <MudTextField T="string" Label="Position" Disabled="true" Required="true" RequiredError="Position is required!" />
-                <MudTextField T="string" Label="Text" Required="true" Variant="Variant.Text" Lines="10" />
+                <MudTextField T="string" Label="Name" @bind-Value="resumeCreateRequest.Name" Required="true" RequiredError="Title is required!" />
+                <MudSelect T="string" @bind-Value="resumeCreateRequest.WorkingPositionTitle" Label="Position" Disabled="true" AnchorOrigin="Origin.BottomCenter">
+
+                    @if (workingPositionsResponse.WorkingPositions != null)
+                        @foreach (var schrow in workingPositionsResponse.WorkingPositions)
+                        {
+                            <MudSelectItem Value="@schrow.Title" />
+                        }
+                </MudSelect>
+                <MudTextField T="string" Label="Text" @bind-Value="resumeCreateRequest.Text" Required="true" Variant="Variant.Text" Lines="10" />
 
                 <div class="d-flex align-center justify-space-between">
-                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!success)" Class="ml-auto" OnClick="ProcessRegister">Register</MudButton>
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!success)" Class="ml-auto" OnClick="ProcessCreateResume">Send CV</MudButton>
                 </div>
+                <MudRadioGroup @bind-SelectedOption="@SelectedOptionScheduleWork" Disabled="true">
+                    @if (schedulersResponse.ScheduleWorks != null)
+                        @foreach (var schrow in schedulersResponse.ScheduleWorks)
+                        {
+                            <MudRadio Option="@schrow.Title" Color="Color.Primary">@schrow.Title</MudRadio>
+                        }
+                </MudRadioGroup>
             </MudForm>
         </MudPaper>
         <MudPaper Class="pa-4 mt-4">
@@ -34,15 +53,37 @@
 </MudGrid>
 @code {
     bool success;
+    public string SelectedOptionScheduleWork { get; set; } = string.Empty;
+    ResumeCreateRequest resumeCreateRequest = new();
+
+    SchedulersResponse schedulersResponse = new ();
+    WorkingPositionsResponse workingPositionsResponse = new();
+    VacancyResponse vacancyResponse = new();
+
     string[] errors = { };
     MudForm? form;
     string textVacancy = string.Empty;
 
-    async Task ProcessRegister()
+    [Parameter]
+    public string? VacancieId { get; set; }
+
+    protected override async Task OnInitializedAsync()
     {
-        success = false;
-        await Task.Delay(2000);
-        success = true;
+        schedulersResponse = await grpcService.GetAllSchedulers(new ServiceVacanciesAndResumes.Models.Requests.SchedulersRequest());
+        workingPositionsResponse = await grpcService.GetAllWorkingPositions(new ServiceVacanciesAndResumes.Models.Requests.WorkingPositionsRequest());
+        vacancyResponse = await grpcService.GetVacationById(new GetVacationByIdRequest { VacancieId = Convert.ToInt32(VacancieId) });
+
+        SelectedOptionScheduleWork = vacancyResponse.ScheduleWork.Title;
+
+        resumeCreateRequest.VacancieId = Convert.ToInt32(VacancieId);
+        resumeCreateRequest.WorkingPositionTitle = vacancyResponse.WorkingPosition.Title;
+        resumeCreateRequest.ScheduleWorkTitle = vacancyResponse.ScheduleWork.Title;
     }
 
+    async Task ProcessCreateResume()
+    {
+        success = false;
+        await grpcService.CreateResume(resumeCreateRequest);
+        NavigationManager.NavigateTo("/showallvacancies");
+    }
 }

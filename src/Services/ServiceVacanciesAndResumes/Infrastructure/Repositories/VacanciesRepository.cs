@@ -24,4 +24,11 @@ public class VacanciesRepository : IVacanciesRepository
                                                                .Include(x => x.ScheduleWorkEntity)
                                                                .ToList();
     }
+
+    public VacancieEntity GetVacancieById(long vacancieId)
+    {
+        return serviceVacanciesAndResumesContext.VacancieEntity.Include(x => x.WorkingPositionEntity)
+                                                               .Include(x => x.ScheduleWorkEntity)
+                                                               .First(x => x.VacancieId == vacancieId);
+    }
 }

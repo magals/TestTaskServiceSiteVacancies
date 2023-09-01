@@ -11,10 +11,11 @@ public class ResumesRepository : IResumesRepository
     {
         this.serviceVacanciesAndResumesContext = serviceVacanciesAndResumesContext;
     }
-    public void CreateResume(ResumeEntity resumeEntity)
+
+    public async Task CreateResume(ResumeEntity resumeEntity)
     {
         serviceVacanciesAndResumesContext.ResumeEntity.Add(resumeEntity);
-        serviceVacanciesAndResumesContext.SaveChanges();
+        await serviceVacanciesAndResumesContext.SaveChangesAsync();
     }
 
     public List<ResumeEntity> GetAll()

@@ -24,23 +24,26 @@ namespace ServiceVacanciesAndResumes.API.Grpc
             this.workingPositionsRepository = workingPositionsRepository;
         }
 
-        public ValueTask CreateResumes(ResumeCreateRequest request)
+        public async ValueTask CreateResume(ResumeCreateRequest request)
         {
-            throw new NotImplementedException();
+            var schwork = this.schedulersRepository.GetAll();
+            var workpos = this.workingPositionsRepository.GetAll();
+            var vacan = this.vacanciesRepository.GetVacancieById(request.VacancieId);
+
+            await resumesRepository.CreateResume(new ResumeEntity
+            { 
+                Name = request.Name,
+                Text = request.Text,
+                VacancieEntity = vacan,
+                WorkingPositionEntity = vacan.WorkingPositionEntity,
+                ScheduleWorkEntity = vacan.ScheduleWorkEntity
+            });
         }
 
         public async ValueTask CreateVacancies(VacancyCreateRequest request)
         {
-            var working = this.workingPositionsRepository.GetAll();
-          /*  if(!working.Any(x => string.Equals(x.Title, request.Position)))
-            {
-                await this.workingPositionsRepository.CreateWorkingPosition(new WorkingPositionEntity
-                {
-                    Title = request.Position,
-                });
-            }*/
-
             var schwork = this.schedulersRepository.GetAll();
+            var workpos = this.workingPositionsRepository.GetAll();
 
             await vacanciesRepository.CreateVacancie(new VacancieEntity
             {
@@ -51,17 +54,38 @@ namespace ServiceVacanciesAndResumes.API.Grpc
                 CreatedBy = "Admin",
                 UpdatedAt = DateTime.Now,
                 UpdatedBy = "Admin",
-                WorkingPositionEntity = new WorkingPositionEntity
-                {
-                    Title = request.Position,
-                },
+                WorkingPositionEntity = workpos.First(x => string.Equals(x.Title, request.Position)),
                 ScheduleWorkEntity = schwork.First(x => string.Equals(x.Title, request.ScheduleWork))
             });
         }
 
-        public ValueTask<ResumesResponse> GetAllResumes(ResumesRequest request)
+        public async ValueTask<ResumesResponse> GetAllResumes(ResumesRequest request)
         {
-            throw new NotImplementedException();
+            var items = resumesRepository.GetAll();
+            var answer = new ResumesResponse() { Resumes = new List<Resume>() };
+
+            items.ForEach(x =>
+            {
+                answer.Resumes.Add(new Resume()
+                {
+                    Text = x.Text,
+                    Name = x.Name,
+                    ScheduleWork = new Models.ScheduleWork
+                    { 
+                        Title = x.ScheduleWorkEntity.Title
+                    },
+                    WorkingPosition = new Models.WorkingPosition
+                    {
+                        Title = x.WorkingPositionEntity.Title,
+                    },
+                    Vacancie = new Models.Vacancy
+                    {
+                        Title = x.VacancieEntity.Title
+                    }
+                });
+            });
+
+            return await Task.FromResult(answer);
         }
 
         public async ValueTask<SchedulersResponse> GetAllSchedulers(SchedulersRequest request)
@@ -117,6 +141,26 @@ namespace ServiceVacanciesAndResumes.API.Grpc
                     Title = x.Title
                 });
             });
+
+            return await Task.FromResult(answer);
+        }
+
+        public async ValueTask<VacancyResponse> GetVacationById(GetVacationByIdRequest request)
+        {
+            var item = vacanciesRepository.GetVacancieById(request.VacancieId);
+            var answer = new VacancyResponse()
+            {
+                Text = item.Text,
+                Title = item.Title,
+                ScheduleWork = new Models.ScheduleWork
+                {
+                    Title = item.ScheduleWorkEntity.Title,
+                },
+                WorkingPosition = new Models.WorkingPosition
+                {
+                    Title = item.WorkingPositionEntity.Title,
+                }
+            };
 
             return await Task.FromResult(answer);
         }

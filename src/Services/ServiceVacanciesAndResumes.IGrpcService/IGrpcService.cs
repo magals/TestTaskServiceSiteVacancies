@@ -8,10 +8,11 @@ namespace ServiceVacanciesAndResumes.IGrpcService;
 public interface IGrpcService
 {
     ValueTask<ResumesResponse> GetAllResumes(ResumesRequest request);
-    ValueTask CreateResumes(ResumeCreateRequest request);
+    ValueTask CreateResume(ResumeCreateRequest request);
 
     ValueTask<VacanciesResponse> GetAllVacancies(VacanciesRequest request);
     ValueTask CreateVacancies(VacancyCreateRequest request);
+    ValueTask<VacancyResponse> GetVacationById(GetVacationByIdRequest request);
 
     ValueTask<SchedulersResponse> GetAllSchedulers(SchedulersRequest request);
     ValueTask<WorkingPositionsResponse> GetAllWorkingPositions(WorkingPositionsRequest request);

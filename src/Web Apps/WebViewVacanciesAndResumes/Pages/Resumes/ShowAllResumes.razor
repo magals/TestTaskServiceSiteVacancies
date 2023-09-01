@@ -1,37 +1,47 @@
 ﻿@page "/showallresumes"
+@using ServiceVacanciesAndResumes.IGrpcService;
+@using ServiceVacanciesAndResumes.Models.Response;
+@using WebViewVacanciesAndResumes.Models;
+@inject IGrpcService grpcService;
+@inject FilterRequest filter;
 
 <MudLayout>
     <MudMainContent Class="mt-n1 mx-auto pa-3">
         <MudContainer>
             <MudText>List Resumes</MudText>
-            <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="mb-4">Resfrash</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="mb-4">Refresh</MudButton>
             <MudList Class="mud-theme-primary">
-                <MudListItem Avatar="@Icons.Material.Filled.Umbrella">
-                    <MudCard>
-                        <MudCardContent>
-                            <MudText>Story of the day</MudText>
-                            <MudText Typo="Typo.body2">The quick, brown fox jumps over a lazy dog.</MudText>
-                        </MudCardContent>
-                        <MudCardActions>
-                            <MudButton Variant="Variant.Text" Color="Color.Primary">Donwload CV</MudButton>
-                        </MudCardActions>
-                    </MudCard>
-                </MudListItem>
-                <MudListItem Avatar="@Icons.Material.Filled.Umbrella">
-                    <MudCard>
-                        <MudCardContent>
-                            <MudText>Story of the day</MudText>
-                            <MudText Typo="Typo.body2">The quick, brown fox jumps over a lazy dog.</MudText>
-                        </MudCardContent>
-                        <MudCardActions>
-                            <MudButton Variant="Variant.Text" Color="Color.Primary">Donwload CV</MudButton>
-                        </MudCardActions>
-                    </MudCard>
-                </MudListItem>
+                @if (resumesResponse.Resumes != null)
+                    @foreach (var row in resumesResponse.Resumes)
+                    {
+                        <MudListItem Avatar="@Icons.Material.Filled.Work">
+                            <MudCard>
+                                <MudCardContent>
+                                    <MudText>@row.Vacancie.Title    -     @row.Name    -     @row.WorkingPosition.Title    -     @row.ScheduleWork.Title</MudText>
+                                    <MudText Typo="Typo.body2">@row.Text</MudText>
+                                </MudCardContent>
+                                <MudCardActions>
+                                    <MudButton Variant="Variant.Text" Color="Color.Primary">Donwload</MudButton>
+                                </MudCardActions>
+                            </MudCard>
+                        </MudListItem>
+                    }
             </MudList>
         </MudContainer>
     </MudMainContent>
 </MudLayout>
 @code {
+    ResumesResponse resumesResponse = new ResumesResponse();
+    protected override async Task OnInitializedAsync()
+    {
+        await UpdateData();
+    }
 
+    async Task UpdateData()
+    {
+        resumesResponse = await grpcService.GetAllResumes(new ServiceVacanciesAndResumes.Models.Requests.ResumesRequest
+            {
+                Enable = true
+            });
+    }
 }

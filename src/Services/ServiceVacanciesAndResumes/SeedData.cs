@@ -74,6 +74,20 @@ public class SeedData
             }
         };
         context.VacancieEntity.AddRange(vacancie);
+
+        var resumes = new List<ResumeEntity>
+        {
+            new ResumeEntity
+            {
+                ResumeId = 1,
+                Name = "Maxim Lisii",
+                Text = "I'm mega programmer",
+                VacancieEntity = vacancie.First(),
+                ScheduleWorkEntity = swe.First(),
+                WorkingPositionEntity = wpe.First()
+            }
+        };
+        context.ResumeEntity.AddRange(resumes);
         await context.SaveChangesAsync(); 
     }
 }

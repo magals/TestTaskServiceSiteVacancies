@@ -19,9 +19,7 @@ public class VacancyResponse
     [ProtoMember(3)]
     public string Text { get; set; }
     [ProtoMember(4)]
-    public Vacancy Vacancie { get; set; }
-    [ProtoMember(5)]
     public ScheduleWork ScheduleWork { get; set; }
-    [ProtoMember(6)]
+    [ProtoMember(5)]
     public WorkingPosition WorkingPosition { get; set; }
 }

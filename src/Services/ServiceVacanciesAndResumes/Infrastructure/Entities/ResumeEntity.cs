@@ -6,7 +6,7 @@ namespace ServiceVacanciesAndResumes.Infrastructure.Entities;
 public class ResumeEntity : Entity
 {
     [Key]
-    public required long ResumeId { get; init; }
+    public long ResumeId { get; set; }
 
     [Required]
     [MaxLength(50)]
