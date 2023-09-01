@@ -9,6 +9,7 @@ using ServiceVacanciesAndResumes.IGrpcService;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using WebViewVacanciesAndResumes.Infrastructure;
+using WebViewVacanciesAndResumes.Models;
 
 IConfiguration Configuration = new ConfigurationBuilder()
    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -44,6 +45,7 @@ try
     builder.Services.AddRazorPages();
     builder.Services.AddServerSideBlazor();
     builder.Services.AddMudServices();
+    builder.Services.AddSingleton<FilterRequest>();
 
     builder.Services.AddTransient<GrpcExceptionInterceptor>();
     builder.Services.AddCodeFirstGrpcClient<IGrpcService>((services, options) =>

@@ -18,8 +18,8 @@
             </MudForm>
         </MudPaper>
         <MudPaper Class="pa-4 mt-4">
-            <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@(()=>form.Validate())">Validate</MudButton>
-            <MudButton Variant="Variant.Filled" Color="Color.Secondary" DisableElevation="true" OnClick="@(()=>form.ResetAsync())" Class="mx-2">Reset</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@(()=>form!.Validate())">Validate</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Secondary" DisableElevation="true" OnClick="@(()=>form!.ResetAsync())" Class="mx-2">Reset</MudButton>
         </MudPaper>
     </MudItem>
     <MudItem xs="12" sm="5">
@@ -35,7 +35,7 @@
 @code {
     bool success;
     string[] errors = { };
-    MudForm form;
+    MudForm? form;
     string textVacancy = string.Empty;
 
     async Task ProcessRegister()

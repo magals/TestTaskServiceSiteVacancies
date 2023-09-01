@@ -1,12 +1,15 @@
 ﻿@page "/showallvacancies"
 @using ServiceVacanciesAndResumes.IGrpcService;
 @using ServiceVacanciesAndResumes.Models.Response;
+@using WebViewVacanciesAndResumes.Models;
 @inject IGrpcService grpcService;
+@inject FilterRequest filter;
 
 <MudLayout>
     <MudMainContent Class="mt-n1 mx-auto pa-3">
         <MudContainer>
             <MudText>List Vacancies</MudText>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="mb-4" OnClick="@UpdateData">Resfrash</MudButton>
             <MudList Class="mud-theme-primary">
                 @if (vacanciesResponse.Vacancies != null)
                     @foreach (var row in vacanciesResponse.Vacancies)
@@ -23,7 +26,6 @@
                             </MudCard>
                         </MudListItem>
                     }
-
             </MudList>
         </MudContainer>
     </MudMainContent>
@@ -33,6 +35,16 @@
     VacanciesResponse vacanciesResponse = new VacanciesResponse();
     protected override async Task OnInitializedAsync()
     {
-        vacanciesResponse = await grpcService.GetAllVacancies(new ServiceVacanciesAndResumes.Models.Requests.VacanciesRequest());
+        await UpdateData();
+    }
+
+    async Task UpdateData()
+    {
+        vacanciesResponse = await grpcService.GetAllVacancies(new ServiceVacanciesAndResumes.Models.Requests.VacanciesRequest()
+        {
+            ScheduleWorks = filter.ScheduleWorks,
+            WorkingPositions = filter.WorkingPositions,
+            Enable = true
+        });
     }
 }

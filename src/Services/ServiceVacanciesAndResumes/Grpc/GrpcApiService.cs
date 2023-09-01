@@ -59,7 +59,9 @@ namespace ServiceVacanciesAndResumes.API.Grpc
                 Vacancies = new List<VacancyResponse>()
             };
 
-            var items = vacanciesRepository.GetAll();
+            var items = vacanciesRepository.GetAll().Where(x => request.ScheduleWorks.Any(y => string.Equals(y.Title, x.ScheduleWorkEntity.Title) && y.Check)
+                                                                                          && request.WorkingPositions.Any(y => string.Equals(y.Title, x.WorkingPositionEntity.Title) && y.Check)).ToList();
+
             items.ForEach(x =>
             {
                 answer.Vacancies.Add(new VacancyResponse

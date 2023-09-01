@@ -1,4 +1,9 @@
 ﻿@inherits LayoutComponentBase
+@using ServiceVacanciesAndResumes.IGrpcService;
+@using ServiceVacanciesAndResumes.Models.Response;
+@using WebViewVacanciesAndResumes.Models;
+@inject IGrpcService grpcService;
+@inject FilterRequest filter;
 
 <MudThemeProvider />
 <MudDialogProvider />
@@ -11,21 +16,20 @@
         <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" />
     </MudAppBar>
 
-
-
      <MudDrawer Open="true" ClipMode="DrawerClipMode.Always" Elevation="2" Anchor="Anchor.Left">
         <MudPaper Width="250px" Class="py-3" Elevation="0">
             <MudText Typo="Typo.h6" Class="px-4">Schedule Work Filter</MudText>
             <MudList>
                 <MudListItem>
-                    <MudCheckBox Checked="true" Color="Color.Primary">All</MudCheckBox>
+                    <MudCheckBox @bind-Checked="Schall" Color="Color.Primary">All</MudCheckBox>
                 </MudListItem>
-                <MudListItem>
-                    <MudCheckBox Checked="true" Color="Color.Primary">Full Time</MudCheckBox>
-                </MudListItem>
-                <MudListItem>
-                    <MudCheckBox Checked="true" Color="Color.Primary">Half-Time</MudCheckBox>
-                </MudListItem>
+                @if (filter.ScheduleWorks != null)
+                    @foreach (var schrow in filter.ScheduleWorks)
+                    {
+                        <MudListItem>
+                            <MudCheckBox @bind-Checked="@schrow.Check" Color="Color.Primary">@schrow.Title</MudCheckBox>
+                        </MudListItem>
+                    }
             </MudList>
         </MudPaper>
 
@@ -33,14 +37,15 @@
             <MudText Typo="Typo.h6" Class="px-4">Positions Filter</MudText>
             <MudList>
                 <MudListItem>
-                    <MudCheckBox Checked="true" Color="Color.Primary">All</MudCheckBox>
+                    <MudCheckBox @bind-Checked="Workposall" Color="Color.Primary">All</MudCheckBox>
                 </MudListItem>
-                <MudListItem>
-                    <MudCheckBox Checked="true" Color="Color.Primary">Full Time</MudCheckBox>
-                </MudListItem>
-                <MudListItem>
-                    <MudCheckBox Checked="true" Color="Color.Primary">Half-Time</MudCheckBox>
-                </MudListItem>
+                @if (filter.WorkingPositions != null)
+                    @foreach (var workrow in filter.WorkingPositions)
+                    {
+                        <MudListItem>
+                            <MudCheckBox @bind-Checked="@workrow.Check" Color="Color.Primary">@workrow.Title</MudCheckBox>
+                        </MudListItem>
+                    }
             </MudList>
         </MudPaper>
     </MudDrawer>
@@ -71,10 +76,40 @@
 </MudLayout>
 
 @code {
-    bool _drawerOpen = true;
 
-    void DrawerToggle()
+    SchedulersResponse schedulersResponse = new SchedulersResponse();
+    WorkingPositionsResponse workingPositionsResponse = new WorkingPositionsResponse();
+
+    private bool schall = true;
+    public bool Schall
     {
-        _drawerOpen = !_drawerOpen;
+        get { return schall; }  
+        set { 
+            schall = value; 
+            schedulersResponse.ScheduleWorks.ForEach(x => x.Check = value);
+        }  
+    }
+
+    private bool workposall = true;
+    public bool Workposall
+    {
+        get { return workposall; }
+        set
+        {
+            workposall = value;
+            workingPositionsResponse.WorkingPositions.ForEach(x => x.Check = value);
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        schedulersResponse = await grpcService.GetAllSchedulers(new ServiceVacanciesAndResumes.Models.Requests.SchedulersRequest());
+        workingPositionsResponse = await grpcService.GetAllWorkingPositions(new ServiceVacanciesAndResumes.Models.Requests.WorkingPositionsRequest());
+
+        schedulersResponse.ScheduleWorks.ForEach(x => x.Check = Schall);
+        workingPositionsResponse.WorkingPositions.ForEach(x => x.Check = Workposall);
+
+        filter.ScheduleWorks = schedulersResponse.ScheduleWorks;
+        filter.WorkingPositions = workingPositionsResponse.WorkingPositions;
     }
 }
