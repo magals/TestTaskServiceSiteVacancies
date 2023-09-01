@@ -9,6 +9,7 @@ public interface IGrpcService
 {
     ValueTask<ResumesResponse> GetAllResumes(ResumesRequest request);
     ValueTask CreateResume(ResumeCreateRequest request);
+    ValueTask<ResumeResponse> GetResumeById(GetResumeByIdRequest request);
 
     ValueTask<VacanciesResponse> GetAllVacancies(VacanciesRequest request);
     ValueTask CreateVacancies(VacancyCreateRequest request);
@@ -16,4 +17,5 @@ public interface IGrpcService
 
     ValueTask<SchedulersResponse> GetAllSchedulers(SchedulersRequest request);
     ValueTask<WorkingPositionsResponse> GetAllWorkingPositions(WorkingPositionsRequest request);
+
 }

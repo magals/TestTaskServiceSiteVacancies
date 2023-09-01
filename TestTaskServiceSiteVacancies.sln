@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web Views", "Web Views", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceVacanciesAndResumes.Models", "src\Services\ServiceVacanciesAndResumes.Models\ServiceVacanciesAndResumes.Models.csproj", "{22425F88-FDF1-449E-8A07-25E1857CA878}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceVacanciesAndResumes.IGrpcService", "src\Services\ServiceVacanciesAndResumes.IGrpcService\ServiceVacanciesAndResumes.IGrpcService.csproj", "{7B0D0573-2035-40BD-825B-7DFFD202D2E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceVacanciesAndResumes.IGrpcService", "src\Services\ServiceVacanciesAndResumes.IGrpcService\ServiceVacanciesAndResumes.IGrpcService.csproj", "{7B0D0573-2035-40BD-825B-7DFFD202D2E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

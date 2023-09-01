@@ -70,6 +70,7 @@
         workingPositionsResponse = await grpcService.GetAllWorkingPositions(new ServiceVacanciesAndResumes.Models.Requests.WorkingPositionsRequest());
 
         SelectedOptionScheduleWork = schedulersResponse.ScheduleWorks.First().Title;
+        vacancyCreateRequest.Position = workingPositionsResponse.WorkingPositions.First().Title;
     }
 
     async Task ProcessRegister()

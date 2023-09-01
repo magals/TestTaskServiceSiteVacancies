@@ -6,4 +6,5 @@ public interface IResumesRepository
 {
     public List<ResumeEntity> GetAll();
     public Task CreateResume(ResumeEntity vacancieEntity);
+    public ResumeEntity GetResumeById(long ResumeId);
 }

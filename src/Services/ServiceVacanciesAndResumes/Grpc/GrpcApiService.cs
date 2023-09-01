@@ -2,7 +2,6 @@
 using ServiceVacanciesAndResumes.Infrastructure.Entities;
 using ServiceVacanciesAndResumes.Models.Requests;
 using ServiceVacanciesAndResumes.Models.Response;
-using System.Runtime.Intrinsics.X86;
 
 namespace ServiceVacanciesAndResumes.API.Grpc
 {
@@ -62,14 +61,15 @@ namespace ServiceVacanciesAndResumes.API.Grpc
         public async ValueTask<ResumesResponse> GetAllResumes(ResumesRequest request)
         {
             var items = resumesRepository.GetAll();
-            var answer = new ResumesResponse() { Resumes = new List<Resume>() };
+            var answer = new ResumesResponse() { Resumes = new List<ResumeResponse>() };
 
             items.ForEach(x =>
             {
-                answer.Resumes.Add(new Resume()
+                answer.Resumes.Add(new ResumeResponse()
                 {
                     Text = x.Text,
                     Name = x.Name,
+                    ResumeId = x.ResumeId,
                     ScheduleWork = new Models.ScheduleWork
                     { 
                         Title = x.ScheduleWorkEntity.Title
@@ -142,6 +142,31 @@ namespace ServiceVacanciesAndResumes.API.Grpc
                 });
             });
 
+            return await Task.FromResult(answer);
+        }
+
+        public async ValueTask<ResumeResponse> GetResumeById(GetResumeByIdRequest request)
+        {
+            var item = resumesRepository.GetResumeById(request.ResumeId);
+            var vacance = vacanciesRepository.GetVacancieById(item.ResumeId);
+
+            var answer = new ResumeResponse()
+            {
+                Text = item.Text,
+                Name = item.Name,
+                ScheduleWork = new Models.ScheduleWork
+                {
+                    Title = vacance.ScheduleWorkEntity.Title,
+                },
+                WorkingPosition = new Models.WorkingPosition
+                {
+                    Title = vacance.WorkingPositionEntity.Title,
+                },
+                Vacancie = new Models.Vacancy
+                {
+                    Title = vacance.Title
+                }
+            };
             return await Task.FromResult(answer);
         }
 

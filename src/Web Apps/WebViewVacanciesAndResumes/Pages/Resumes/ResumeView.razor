@@ -1,0 +1,60 @@
+﻿@page "/resumeview/{resumeId}"
+@using ServiceVacanciesAndResumes.IGrpcService;
+@using ServiceVacanciesAndResumes.Models.Response;
+@using WebViewVacanciesAndResumes.Models;
+@inject IGrpcService grpcService;
+@inject FilterRequest filter;
+
+<MudText Class="mt-1 mx-auto pa-3">View Resume</MudText>
+<MudGrid Class="mt-n1 mx-auto pa-3">
+    <MudItem xs="12" sm="7">
+        <MudPaper Class="pa-4">
+            <MudForm>
+                <MudTextField T="string" Label="Name" @bind-Value="resumeResponse.Name"  RequiredError="Title is required!" />
+                @if (workingPositionsResponse.WorkingPositions != null)
+                {
+                 <MudSelect T="string" @bind-Value="resumeResponse.WorkingPosition.Title" Label="Position" Disabled="true" AnchorOrigin="Origin.BottomCenter">
+
+                    @if (workingPositionsResponse.WorkingPositions != null)
+                        @foreach (var schrow in workingPositionsResponse.WorkingPositions)
+                        {
+                            <MudSelectItem Value="@schrow.Title" />
+                        }
+                </MudSelect>
+                }
+                <MudTextField T="string" Label="Text" @bind-Value="resumeResponse.Text" Required="true" Variant="Variant.Text" Lines="10" />
+                
+                <div class="d-flex align-center justify-space-between">
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary"  Class="ml-auto" HRef="/showallresumes">Close</MudButton>
+                </div>
+                <MudRadioGroup @bind-SelectedOption="@SelectedOptionScheduleWork" Disabled="true">
+                    @if (schedulersResponse.ScheduleWorks != null)
+                        @foreach (var schrow in schedulersResponse.ScheduleWorks)
+                        {
+                            <MudRadio Option="@schrow.Title" Color="Color.Primary">@schrow.Title</MudRadio>
+                        }
+                </MudRadioGroup> 
+            </MudForm>
+        </MudPaper>
+    </MudItem>
+</MudGrid>
+
+@code {
+    [Parameter]
+    public string? ResumeId { get; set; }
+    public string SelectedOptionScheduleWork { get; set; } = string.Empty;
+
+    ResumeResponse resumeResponse = new();
+    SchedulersResponse schedulersResponse = new();
+    WorkingPositionsResponse workingPositionsResponse = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        schedulersResponse = await grpcService.GetAllSchedulers(new ServiceVacanciesAndResumes.Models.Requests.SchedulersRequest());
+        workingPositionsResponse = await grpcService.GetAllWorkingPositions(new ServiceVacanciesAndResumes.Models.Requests.WorkingPositionsRequest());
+        
+        resumeResponse = await grpcService.GetResumeById(new ServiceVacanciesAndResumes.Models.Requests.GetResumeByIdRequest { ResumeId = Convert.ToInt32(ResumeId) });
+
+        SelectedOptionScheduleWork = resumeResponse.ScheduleWork.Title;
+    }
+}

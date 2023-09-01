@@ -25,4 +25,12 @@ public class ResumesRepository : IResumesRepository
                                                                 .Include(x => x.VacancieEntity)
                                                                .ToList();
     }
+
+    public ResumeEntity GetResumeById(long ResumeId)
+    {
+        return serviceVacanciesAndResumesContext.ResumeEntity.Include(x => x.WorkingPositionEntity)
+                                                             .Include(x => x.ScheduleWorkEntity)
+                                                             .Include(x => x.VacancieEntity)
+                                                             .First(x => x.ResumeId == ResumeId);
+    }
 }
