@@ -60,6 +60,8 @@ try
     builder.Services.AddDbContext<ServiceVacanciesAndResumesContext>();
     builder.Services.AddScoped<IVacanciesRepository, VacanciesRepository>();
     builder.Services.AddScoped<IResumesRepository, ResumesRepository>();
+    builder.Services.AddScoped<ISchedulersRepository, SchedulersRepository>();
+    builder.Services.AddScoped<IWorkingPositionsRepository, WorkingPositionsRepository>();
 
     builder.Services.AddGrpc();
     builder.Services.AddCodeFirstGrpc();

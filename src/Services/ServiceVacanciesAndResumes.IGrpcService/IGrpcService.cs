@@ -12,4 +12,7 @@ public interface IGrpcService
 
     ValueTask<VacanciesResponse> GetAllVacancies(VacanciesRequest request);
     ValueTask CreateVacancies(VacancyCreateRequest request);
+
+    ValueTask<SchedulersResponse> GetAllSchedulers(SchedulersRequest request);
+    ValueTask<WorkingPositionsResponse> GetAllWorkingPositions(WorkingPositionsRequest request);
 }
