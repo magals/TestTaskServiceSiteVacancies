@@ -5,5 +5,5 @@ namespace ServiceVacanciesAndResumes.API.Infrastructure.Repositories;
 public interface IWorkingPositionsRepository
 {
     public List<WorkingPositionEntity> GetAll();
-    public void CreateWorkingPosition(WorkingPositionEntity workingPositionEntity);
+    public Task CreateWorkingPosition(WorkingPositionEntity workingPositionEntity);
 }

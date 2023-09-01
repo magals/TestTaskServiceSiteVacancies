@@ -53,9 +53,9 @@ public class SeedData
                 Text = "Bla-bla bla, need C# programmer",
                 Enable = true,
                 CreatedAt = DateTime.Now,
-                CreatedBy = "InMemory",
+                CreatedBy = "EnsureSeedData",
                 UpdatedAt = DateTime.Now,
-                UpdatedBy = "InMemory",
+                UpdatedBy = "EnsureSeedData",
                 ScheduleWorkEntity =  swe.First(x => x.ScheduleWorkId == 1),
                 WorkingPositionEntity = wpe.First(x => x.WorkingPositionId == 1)
             },
@@ -66,9 +66,9 @@ public class SeedData
                 Text = "Need an accountant",
                 Enable = true,
                 CreatedAt = DateTime.Now,
-                CreatedBy = "InMemory",
+                CreatedBy = "EnsureSeedData",
                 UpdatedAt = DateTime.Now,
-                UpdatedBy = "InMemory",
+                UpdatedBy = "EnsureSeedData",
                 ScheduleWorkEntity =  swe.First(x => x.ScheduleWorkId == 2),
                 WorkingPositionEntity = wpe.First(x => x.WorkingPositionId == 2)
             }

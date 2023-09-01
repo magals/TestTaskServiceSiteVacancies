@@ -12,10 +12,10 @@ public class VacanciesRepository : IVacanciesRepository
         this.serviceVacanciesAndResumesContext = serviceVacanciesAndResumesContext;
     }
 
-    public void CreateVacancie(VacancieEntity vacancieEntity)
+    public async Task CreateVacancie(VacancieEntity vacancieEntity)
     {
         serviceVacanciesAndResumesContext.VacancieEntity.Add(vacancieEntity);
-        serviceVacanciesAndResumesContext.SaveChanges();
+        await serviceVacanciesAndResumesContext.SaveChangesAsync();
     }
 
     public List<VacancieEntity> GetAll()

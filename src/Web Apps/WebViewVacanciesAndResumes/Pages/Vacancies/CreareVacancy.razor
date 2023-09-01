@@ -2,56 +2,83 @@
 
 @using System.Text.RegularExpressions
 @using System.ComponentModel.DataAnnotations
+@using ServiceVacanciesAndResumes.IGrpcService;
+@using ServiceVacanciesAndResumes.Models.Requests;
+@using ServiceVacanciesAndResumes.Models.Response;
+@inject IGrpcService grpcService;
+@inject NavigationManager NavigationManager
 
 <MudText Class="mt-1 mx-auto pa-3">Create Vacancy</MudText>
 <MudGrid Class="mt-n1 mx-auto pa-3">
     <MudItem xs="12" sm="7">
         <MudPaper Class="pa-4">
-            <MudForm @ref="form" @bind-IsValid="@success" @bind-Errors="@errors">
-                <MudTextField T="string" Label="Title" Required="true" RequiredError="Title is required!" />
-                <MudTextField T="string" Label="Position" Required="true" RequiredError="Position is required!"/>
-                <MudTextField T="string" Label="Text" Required="true"  Variant="Variant.Text" Lines="10" />
+            <MudForm Model="@vacancyCreateRequest" @ref="form" @bind-IsValid="@success" @bind-Errors="@errors">
+                <MudTextField T="string" @bind-Value="vacancyCreateRequest.Title"    Label="Title" Required="true" RequiredError="Title is required!" />
 
-                <MudList>
-                    <MudListItem>
-                        <MudCheckBox Checked="true" Color="Color.Primary">Full Time</MudCheckBox>
-                    </MudListItem>
-                    <MudListItem>
-                        <MudCheckBox Checked="true" Color="Color.Primary">Half-Time</MudCheckBox>
-                    </MudListItem>
-                </MudList>
-                
+                <MudSelect T="string" @bind-Value="vacancyCreateRequest.Position" Label="Position" AnchorOrigin="Origin.BottomCenter">
+                    
+                    @if (workingPositionsResponse.WorkingPositions != null)
+                        @foreach (var schrow in workingPositionsResponse.WorkingPositions)
+                        {
+                            <MudSelectItem Value="@schrow.Title" />
+                        }
+                </MudSelect>
+
+                <MudTextField T="string" @bind-Value="vacancyCreateRequest.Text"     Label="Text" Required="true" Variant="Variant.Text" Lines="10" />
+
+                <MudRadioGroup @bind-SelectedOption="@SelectedOptionScheduleWork">
+                    @if (schedulersResponse.ScheduleWorks != null)
+                        @foreach (var schrow in schedulersResponse.ScheduleWorks)
+                        {
+                            <MudRadio Option="@schrow.Title" Color="Color.Primary">@schrow.Title</MudRadio>
+                        }
+                </MudRadioGroup>
+
                 <div class="d-flex align-center justify-space-between">
                     <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!success)" Class="ml-auto" OnClick="ProcessRegister">Register</MudButton>
                 </div>
             </MudForm>
         </MudPaper>
         <MudPaper Class="pa-4 mt-4">
-            <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@(()=>form.Validate())">Validate</MudButton>
-            <MudButton Variant="Variant.Filled" Color="Color.Secondary" DisableElevation="true" OnClick="@(()=>form.ResetAsync())" Class="mx-2">Reset</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@(()=>form!.Validate())">Validate</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Secondary" DisableElevation="true" OnClick="@(()=>form!.ResetAsync())" Class="mx-2">Reset</MudButton>
         </MudPaper>
     </MudItem>
     <MudItem xs="12" sm="5">
         <MudPaper Class="pa-4 mud-height-full">
             <MudText Typo="Typo.subtitle2">@($"Errors ({errors.Length})")</MudText>
                 @foreach (var error in errors)
-            {
-                <MudText Color="@Color.Error">@error</MudText>
-            }
+                {
+                    <MudText Color="@Color.Error">@error</MudText>
+                }
         </MudPaper>
     </MudItem>
 </MudGrid>
 @code {
     bool success;
     string[] errors = { };
-    MudForm form;
+    MudForm? form;
     string textVacancy = string.Empty;
+    public string SelectedOptionScheduleWork { get; set; } = string.Empty;
+    VacancyCreateRequest vacancyCreateRequest = new VacancyCreateRequest();
+    SchedulersResponse schedulersResponse = new SchedulersResponse();
+    WorkingPositionsResponse workingPositionsResponse = new WorkingPositionsResponse();
+
+    protected override async Task OnInitializedAsync()
+    {
+        schedulersResponse = await grpcService.GetAllSchedulers(new ServiceVacanciesAndResumes.Models.Requests.SchedulersRequest());
+        workingPositionsResponse = await grpcService.GetAllWorkingPositions(new ServiceVacanciesAndResumes.Models.Requests.WorkingPositionsRequest());
+
+        SelectedOptionScheduleWork = schedulersResponse.ScheduleWorks.First().Title;
+    }
 
     async Task ProcessRegister()
     {
         success = false;
-        await Task.Delay(2000);
-        success = true;
+        vacancyCreateRequest.ScheduleWork = SelectedOptionScheduleWork;
+        await grpcService.CreateVacancies(vacancyCreateRequest);
+
+        NavigationManager.NavigateTo("/showallvacancies");
     }
 
 }

@@ -10,10 +10,10 @@ public class WorkingPositionsRepository : IWorkingPositionsRepository
     {
         this.serviceVacanciesAndResumesContext = serviceVacanciesAndResumesContext;
     }
-    public void CreateWorkingPosition(WorkingPositionEntity workingPositionEntity)
+    public async Task CreateWorkingPosition(WorkingPositionEntity workingPositionEntity)
     {
         serviceVacanciesAndResumesContext.WorkingPositionEntity.Add(workingPositionEntity);
-        serviceVacanciesAndResumesContext.SaveChanges();
+        await serviceVacanciesAndResumesContext.SaveChangesAsync();
     }
 
     public List<WorkingPositionEntity> GetAll()

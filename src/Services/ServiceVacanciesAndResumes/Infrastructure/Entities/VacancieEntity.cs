@@ -6,7 +6,7 @@ namespace ServiceVacanciesAndResumes.Infrastructure.Entities;
 public class VacancieEntity : Entity
 {
     [Key]
-    public required long VacancieId { get; init; }
+    public long VacancieId { get; set; }
 
     [Required]
     [MaxLength(50)]

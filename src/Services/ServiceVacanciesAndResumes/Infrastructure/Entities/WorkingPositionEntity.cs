@@ -6,7 +6,7 @@ namespace ServiceVacanciesAndResumes.Infrastructure.Entities;
 public class WorkingPositionEntity : Entity
 {
     [Key]
-    public required long WorkingPositionId { get; init; }
+    public long WorkingPositionId { get; set; }
 
     [Required]
     [MaxLength(50)]

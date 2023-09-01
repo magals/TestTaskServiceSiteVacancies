@@ -5,5 +5,5 @@ namespace ServiceVacanciesAndResumes.API.Infrastructure.Repositories;
 public interface IVacanciesRepository
 {
     public List<VacancieEntity> GetAll();
-    public void CreateVacancie(VacancieEntity vacancieEntity);
+    public Task CreateVacancie(VacancieEntity vacancieEntity);
 }

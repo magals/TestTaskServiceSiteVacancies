@@ -6,7 +6,7 @@ namespace ServiceVacanciesAndResumes.Infrastructure.Entities;
 public class ScheduleWorkEntity : Entity
 {
     [Key]
-    public required long ScheduleWorkId { get; init; }
+    public long ScheduleWorkId { get; set; }
 
     [Required]
     [MaxLength(50)]
